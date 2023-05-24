@@ -1,0 +1,192 @@
+public class Main
+{
+	public static void main(String[] args) 
+	{
+	    Rational r1=new Rational(1,6);
+	    Rational r2=new Rational(-5,-7);
+	    Rational r3=new Rational(4,2);
+	    Rational r4=new Rational(3,-2);
+	    Rational r5=r1.add(r3);
+	    Rational r6=r5.multiply(r3);
+	    Rational r7=r2.subtract(r2);
+	    
+	    r1.setden(0);
+	    r2.setnum(42);
+	  
+	    r3=r4.subtract(r3);
+	    System.out.println(r4.compareTo(r5));
+	    System.out.println(r4.compareTo(new Rational(10,60)));
+	    
+	    System.out.println(r1.toString());
+	    System.out.println(r2.toString());
+	    System.out.println(r3.toString());
+	    System.out.println(r4.toString());
+	    System.out.println(r5.toString());
+	    System.out.println(r6.toString());
+	    System.out.println(r7.toString());
+	    
+	}
+}
+
+
+import java.util.*;
+public class Rational
+{
+    private int n;
+    private int d;
+    
+    private void reduce()
+    {
+        if(n==0)
+        {
+            d=1;
+            return;
+        }
+        int m=Math.min(n,d);
+        for(int i=2;i<=m;i++)
+        {
+            
+            if(n%i==0 && d%i==0)
+            {
+                n=n/i;
+                d=d/i;
+                i=2;
+                m=Math.min(n,d);
+            }
+        }
+    }
+    
+    void setnum(int a)
+    {
+        n=a;
+        if(a==0)
+        {
+            d=1;
+            return ;
+        }
+        this.reduce();
+    }
+    
+    void setden(int b)
+    {
+        if(b==0)
+        {
+            n=0;
+            d=1;
+            return;
+        }
+        if(b<0)
+        {
+            d=-b;
+            n=-n;
+            this.reduce();
+            return;
+        }
+        d=b;
+        this.reduce();
+    }
+    Rational(int a,int b)
+    {
+        if(b<0)
+        {
+            b=-b;
+            a=-a;
+        }
+        if(b==0)
+        {
+            a=0;
+            b=1;
+        }
+        n=a;
+        d=b;
+        this.reduce();
+    }
+    
+    Rational()
+    {
+        n=0;
+        d=1;
+    }
+    
+    public int getnum()
+    {
+        return n;
+    }
+    
+    public int getden()
+    {
+        return d;
+    }
+    
+    
+    public Rational add(Rational n2)
+    {
+        int a=n2.getnum();
+        int b=n2.getden();
+        int x=(n*b)+(a*d);
+        int y=d * b;
+        Rational ans=new Rational(x,y);
+        return ans;
+    }
+    
+    public Rational subtract(Rational n2)
+    {
+        int a=n2.getnum();
+        int b=n2.getden();
+        int x=(n*b)-(a*d);
+        int y=d * b;
+        if(x==0)
+        {
+            Rational aa=new Rational();
+            return aa;
+        }
+        Rational ans=new Rational(x,y);
+        return ans;
+    }
+    
+    public Rational multiply(Rational n2)
+    {
+        int a=n2.getnum();
+        int b=n2.getden();
+        int x=n*a;
+        int y=d*b;
+        Rational ans=new Rational(x,y);
+        return ans;
+    }
+    
+    public Rational divide(Rational n2)
+    {
+        int a=n2.getnum();
+        int b=n2.getden();
+        int x=n*b;
+        int y=d*a;
+        Rational ans=new Rational(x,y);
+        return ans;
+    }
+    
+    public int compareTo(Rational n2)
+    {
+        float a=n/d;
+        float b=n2.getnum()/n2.getden();
+        
+        if(a==b)
+        {
+            return 0;
+        }
+        if(a>b)
+        {
+            return 1;
+        }
+        return -1;
+    }
+    
+    public String toString()
+    {
+        String str=n+"/"+d;
+        return str;
+    }
+    
+}
+
+
+
